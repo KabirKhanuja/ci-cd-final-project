@@ -48,6 +48,8 @@ spec:
             script: |
               #!/bin/sh
               set -eu
+              export HOME=/tmp
+              git config --global --add safe.directory '*'
               git clone --depth 1 --branch "$(params.revision)" "$(params.url)" .
               git log -1 --oneline
 
@@ -67,6 +69,9 @@ spec:
             script: |
               #!/bin/bash
               set -e
+              export HOME=/tmp
+              python -m venv /tmp/venv
+              source /tmp/venv/bin/activate
               python -m pip install --upgrade pip wheel
               pip install -q flake8==4.0.1
               flake8 service --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -106,6 +111,7 @@ spec:
             script: |
               #!/bin/bash
               set -e
+              export HOME=/tmp
               APP="$(params.app-name)"
               if ! oc get bc "$APP" >/dev/null 2>&1; then
                 oc new-build --name "$APP" --binary --strategy docker
@@ -127,6 +133,7 @@ spec:
             script: |
               #!/bin/bash
               set -e
+              export HOME=/tmp
               APP="$(params.app-name)"
               NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
               IMAGE="image-registry.openshift-image-registry.svc:5000/${NS}/${APP}:latest"
