@@ -17,16 +17,16 @@ spec:
   workspaces:
     - name: pipeline-workspace
   tasks:
-    - name: init
+    - name: cleanup
       taskRef:
         name: cleanup
       workspaces:
         - name: source
           workspace: pipeline-workspace
 
-    - name: clone
+    - name: git-clone
       runAfter:
-        - init
+        - cleanup
       params:
         - name: url
           value: $(params.repo-url)
@@ -53,9 +53,9 @@ spec:
               git clone --depth 1 --branch "$(params.revision)" "$(params.url)" .
               git log -1 --oneline
 
-    - name: lint
+    - name: flake8
       runAfter:
-        - clone
+        - git-clone
       workspaces:
         - name: source
           workspace: pipeline-workspace
@@ -77,9 +77,9 @@ spec:
               flake8 service --count --select=E9,F63,F7,F82 --show-source --statistics
               flake8 service --count --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: tests
+    - name: nose
       runAfter:
-        - clone
+        - git-clone
       taskRef:
         name: nose
       params:
@@ -89,10 +89,10 @@ spec:
         - name: source
           workspace: pipeline-workspace
 
-    - name: build
+    - name: buildah
       runAfter:
-        - lint
-        - tests
+        - flake8
+        - nose
       params:
         - name: app-name
           value: $(params.app-name)
@@ -120,7 +120,7 @@ spec:
 
     - name: deploy
       runAfter:
-        - build
+        - buildah
       params:
         - name: app-name
           value: $(params.app-name)

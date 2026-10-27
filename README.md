@@ -1,6 +1,18 @@
 # CI/CD Tools and Practices Final Project
 
-**Project name:** Hit Counter Service CI/CD Pipeline
+[![CI workflow](https://github.com/KabirKhanuja/ci-cd-final-project/actions/workflows/workflow.yml/badge.svg)](https://github.com/KabirKhanuja/ci-cd-final-project/actions/workflows/workflow.yml)
+
+## Project Name
+
+**ci-cd-final-project**: Hit Counter Service CI/CD Pipeline
+
+## Project Details
+
+* **Course:** CI/CD Tools and Practices (IBM, Coursera)
+* **Author:** Kabir Singh Khanuja
+* **Application:** Hit Counter Service, a Python Flask REST API
+* **CI:** GitHub Actions workflow in `.github/workflows/workflow.yml` that lints with flake8 and runs unit tests with nose
+* **CD:** Tekton tasks in `.tekton/tasks.yml` (cleanup and nose) and an OpenShift pipeline with the steps cleanup, git-clone, flake8, nose, buildah and deploy
 
 This repository contains my Final Project for the Coursera course **CI/CD Tools and Practices**. It builds a CI pipeline with GitHub Actions (flake8 linting and nose unit tests) and a CD pipeline with Tekton tasks on OpenShift that clean the workspace, clone the code, lint, test, build the image and deploy the Hit Counter Service.
 
