@@ -1,6 +1,8 @@
-# CI/CD Tools and Practices Final Project Template
+# CI/CD Tools and Practices Final Project
 
-This repository contains the template to be used for the Final Project for the Coursera course **CI/CD Tools and Practices**.
+**Project name:** Hit Counter Service CI/CD Pipeline
+
+This repository contains my Final Project for the Coursera course **CI/CD Tools and Practices**. It builds a CI pipeline with GitHub Actions (flake8 linting and nose unit tests) and a CD pipeline with Tekton tasks on OpenShift that clean the workspace, clone the code, lint, test, build the image and deploy the Hit Counter Service.
 
 ## Usage
 
